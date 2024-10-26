@@ -1,0 +1,109 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/db.changelog-master.yaml
+  - changeSet:
+      id: 1
+      author: artem
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(512)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: tinyint
+        - createTable:
+            schemaName: public
+            tableName: projects
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(400)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: tracked_time
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 2
+      author: artem
+      comment: "Create admin user"
+      changes:
+        - insert:
+            schemaName: public
+            tableName: users
+            columns:
+              - column:
+                  name: name
+                  value: "admin"
+              - column:
+                  name: password
+                  value: "$2a$12$CGop0GHonDeOXYLikLxmk.eSUgS/Dw8Z5kkB66fyXOblyY7zlwIUW"
+              - column:
+                  name: role
+                  value: 0
+        - insert:
+            schemaName: public
+            tableName: users
+            columns:
+              - column:
+                  name: name
+                  value: "guest"
+              - column:
+                  name: password
+                  value: "$2a$12$7eb3kWgQ/F9LfkS6nowXuOIF1sPP4t3EbnIIZVwuLJmpahrTOzm.G"
+              - column:
+                  name: role
+                  value: 1
+        - insert:
+            schemaName: public
+            tableName: projects
+            columns:
+              - column:
+                  name: name
+                  value: "project"
+              - column:
+                  name: description
+                  value: "new project"
+              - column:
+                  name: tracked_time
+                  value: 20
+              - column:
+                  name: user_id
+                  value: "2"
+
